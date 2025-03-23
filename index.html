@@ -7,42 +7,56 @@
     <style>
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
+            align-items: center;
             text-align: center;
             font-family: Arial, sans-serif;
             background-color: #f9f2dc;
+            margin: 0;
+            padding: 20px;
         }
         #gameContainer {
             display: flex;
+            align-items: center;
+            justify-content: space-between;
             width: 80%;
             max-width: 900px;
-            justify-content: space-between;
-            align-items: center;
+            margin-top: 20px;
+        }
+        #farmContainer {
+            flex: 1;
         }
         #farmImage {
             width: 300px;
             height: auto;
+            border: 2px solid #000;
+            background-color: #fff;
         }
-        #clickButton, #resetButton {
-            font-size: 20px;
-            padding: 10px 20px;
+        #controls {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px;
             margin: 10px;
-            background-color: #ffcc33;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: 200px;
+        }
+        #clickButton {
+            background-color: #ffcc33;
         }
         #resetButton {
             background-color: #ff6666;
-        }
-        #shop {
-            margin-top: 20px;
+            color: white;
         }
         .stat {
             font-size: 18px;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         #goalTracker {
             font-size: 18px;
@@ -59,6 +73,35 @@
     <p id="goalTracker">Goal: Grow 10 sunflowers</p>
 
     <div id="gameContainer">
-        <img id="farmImage" src="https://via.placeholder.com/300x200?text=Empty+Field" alt="Farm Image">
-        <div>
-            <button id="click
+        <div id="farmContainer">
+            <img id="farmImage" src="https://via.placeholder.com/300x200?text=Empty+Field" alt="Farm Image">
+        </div>
+        <div id="controls">
+            <button id="clickButton">Plant Sunflower 🌱</button>
+            <button id="resetButton">Reset Game</button>
+            <div id="shop">
+                <button id="upgrade">Buy Auto-Grow (Cost: 10 seeds)</button>
+                <button id="convert">Convert 5 Seeds to 1 Oil</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        let sunflowers = parseInt(localStorage.getItem("sunflowers")) || 0;
+        let seeds = parseInt(localStorage.getItem("seeds")) || 0;
+        let oil = parseInt(localStorage.getItem("oil")) || 0;
+        let autoGrowers = parseInt(localStorage.getItem("autoGrowers")) || 0;
+        let upgradeCost = parseInt(localStorage.getItem("upgradeCost")) || 10;
+        let goalIndex = parseInt(localStorage.getItem("goalIndex")) || 0;
+
+        // Farm images for progression
+        let farmImages = [
+            "https://via.placeholder.com/300x200?text=Empty+Field",
+            "https://via.placeholder.com/300x200?text=Small+Sunflower+Patch",
+            "https://via.placeholder.com/300x200?text=Medium+Sunflower+Farm",
+            "https://via.placeholder.com/300x200?text=Large+Sunflower+Field"
+        ];
+
+        let goals = [
+            { text: "Grow 10 sunflowers", amount:
