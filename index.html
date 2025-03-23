@@ -15,11 +15,6 @@
             margin: 0;
             padding: 20px;
         }
-        #controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
         button {
             font-size: 18px;
             padding: 10px;
@@ -49,3 +44,27 @@
             font-weight: bold;
             margin-top: 15px;
         }
+    </style>
+</head>
+<body>
+    <h1>Sunflower Clicker 🌻</h1>
+    <p class="stat">Sunflowers: <span id="counter">0</span></p>
+    <p class="stat">Seeds: <span id="seeds">0</span></p>
+    <p class="stat">Oil: <span id="oil">0</span></p>
+    <p id="goalTracker">Goal: Grow 10 sunflowers</p>
+
+    <button id="clickButton">Plant Sunflower 🌱</button>
+    <button id="convertButton">Convert 100 Seeds to 1 Oil</button>
+    <button id="resetButton">Reset Game</button>
+
+    <script>
+        // ✅ Fix: Ensure values are properly initialized and retrieved
+        let sunflowers = parseInt(localStorage.getItem("sunflowers")) || 0;
+        let seeds = parseInt(localStorage.getItem("seeds")) || 0;
+        let oil = parseInt(localStorage.getItem("oil")) || 0;
+        let goalIndex = parseInt(localStorage.getItem("goalIndex")) || 0;
+
+        let goals = [
+            { text: "Grow 10 sunflowers", amount: 10, type: "sunflowers" },
+            { text: "Harvest 50 seeds", amount: 50, type: "seeds" },
+            { text: "Produce 5 sunflower oils", amount: 5, type: "oil" },
