@@ -80,8 +80,7 @@
             <button id="clickButton">Plant Sunflower 🌱</button>
             <button id="resetButton">Reset Game</button>
             <div id="shop">
-                <button id="upgrade">Buy Auto-Grow (Cost: 10 seeds)</button>
-                <button id="convert">Convert 5 Seeds to 1 Oil</button>
+                <button id="convert">Convert 100 Seeds to 1 Oil</button>
             </div>
         </div>
     </div>
@@ -91,8 +90,6 @@
         let sunflowers = parseInt(localStorage.getItem("sunflowers")) || 0;
         let seeds = parseInt(localStorage.getItem("seeds")) || 0;
         let oil = parseInt(localStorage.getItem("oil")) || 0;
-        let autoGrowers = parseInt(localStorage.getItem("autoGrowers")) || 0;
-        let upgradeCost = parseInt(localStorage.getItem("upgradeCost")) || 10;
         let goalIndex = parseInt(localStorage.getItem("goalIndex")) || 0;
 
         // Farm images for progression
@@ -104,4 +101,19 @@
         ];
 
         let goals = [
-            { text: "Grow 10 sunflowers", amount:
+            { text: "Grow 10 sunflowers", amount: 10, type: "sunflowers" },
+            { text: "Harvest 50 seeds", amount: 50, type: "seeds" },
+            { text: "Produce 5 sunflower oils", amount: 5, type: "oil" },
+            { text: "Grow 50 sunflowers", amount: 50, type: "sunflowers" },
+            { text: "Reach 100 sunflowers!", amount: 100, type: "sunflowers" }
+        ];
+
+        // Update UI function
+        function updateUI() {
+            document.getElementById("counter").innerText = sunflowers;
+            document.getElementById("seeds").innerText = seeds;
+            document.getElementById("oil").innerText = oil;
+
+            // Update goal tracker
+            if (goalIndex < goals.length) {
+                document.getElementBy
