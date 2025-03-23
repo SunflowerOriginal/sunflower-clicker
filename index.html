@@ -45,10 +45,14 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: 200px;
+            width: 250px;
         }
         #clickButton {
             background-color: #ffcc33;
+        }
+        #convertButton {
+            background-color: #66cc66;
+            color: white;
         }
         #resetButton {
             background-color: #ff6666;
@@ -78,15 +82,13 @@
         </div>
         <div id="controls">
             <button id="clickButton">Plant Sunflower 🌱</button>
+            <button id="convertButton">Convert 100 Seeds to 1 Oil</button>
             <button id="resetButton">Reset Game</button>
-            <div id="shop">
-                <button id="convert">Convert 100 Seeds to 1 Oil</button>
-            </div>
         </div>
     </div>
 
     <script>
-        // Game variables
+        // Load game progress from local storage or set default values
         let sunflowers = parseInt(localStorage.getItem("sunflowers")) || 0;
         let seeds = parseInt(localStorage.getItem("seeds")) || 0;
         let oil = parseInt(localStorage.getItem("oil")) || 0;
@@ -116,4 +118,6 @@
 
             // Update goal tracker
             if (goalIndex < goals.length) {
-                document.getElementBy
+                document.getElementById("goalTracker").innerText = `Goal: ${goals[goalIndex].text}`;
+            } else {
+                document.getElementById("goalTracker").innerText = "All
