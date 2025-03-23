@@ -12,6 +12,7 @@
         #field { position: relative; width: 100%; height: 400px; border: 2px solid #ccc; margin-top: 20px; background-color: #e6f7d4; overflow: hidden; }
         .sunflower { position: absolute; width: 30px; opacity: 0; transition: all 1s ease-in-out; }
         .grow { opacity: 1; transform: scale(1.5); }
+        #goals { margin-top: 20px; padding: 10px; background: #fff3cd; border: 1px solid #ffcc33; border-radius: 5px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -28,13 +29,28 @@
     
     <div id="field"></div>
     
+    <div id="goals">
+        <h3>Goals</h3>
+        <p id="goalText">Grow 10 sunflowers</p>
+    </div>
+    
     <script>
         let sunflowers = parseInt(localStorage.getItem("sunflowers")) || 0;
         let seeds = parseInt(localStorage.getItem("seeds")) || 0;
         let oil = parseInt(localStorage.getItem("oil")) || 0;
         let autoGrowers = parseInt(localStorage.getItem("autoGrowers")) || 0;
         let upgradeCost = 10;
+        let goalIndex = parseInt(localStorage.getItem("goalIndex")) || 0;
 
+        const goals = [
+            { text: "Grow 10 sunflowers", condition: () => sunflowers >= 10 },
+            { text: "Harvest 50 seeds", condition: () => seeds >= 50 },
+            { text: "Produce 5 sunflower oils", condition: () => oil >= 5 },
+            { text: "Grow 50 sunflowers", condition: () => sunflowers >= 50 },
+            { text: "Reach 100 sunflowers!", condition: () => sunflowers >= 100 }
+        ];
+
+        document.getElementById("goalText").innerText = goals[goalIndex].text;
         document.getElementById("counter").innerText = sunflowers;
         document.getElementById("seeds").innerText = seeds;
         document.getElementById("oil").innerText = oil;
@@ -44,12 +60,13 @@
             seeds += 2;
             plantSunflower();
             updateStats();
+            checkGoals();
         });
 
         function plantSunflower() {
             let field = document.getElementById("field");
             let sunflower = document.createElement("img");
-            sunflower.src = "https://upload.wikimedia.org/wikipedia/commons/4/40/Sunflower_sky_backdrop.jpg"; // Sunflower image
+            sunflower.src = "https://upload.wikimedia.org/wikipedia/commons/4/40/Sunflower_sky_backdrop.jpg";
             sunflower.classList.add("sunflower");
             
             let x = Math.random() * (field.clientWidth - 40);
@@ -77,6 +94,7 @@
                 seeds -= 5;
                 oil++;
                 updateStats();
+                checkGoals();
             }
         }
 
@@ -87,6 +105,7 @@
                 plantSunflower();
             }
             updateStats();
+            checkGoals();
         }
 
         function updateStats() {
@@ -97,6 +116,18 @@
             localStorage.setItem("seeds", seeds);
             localStorage.setItem("oil", oil);
             localStorage.setItem("autoGrowers", autoGrowers);
+        }
+
+        function checkGoals() {
+            if (goalIndex < goals.length && goals[goalIndex].condition()) {
+                goalIndex++;
+                if (goalIndex < goals.length) {
+                    document.getElementById("goalText").innerText = goals[goalIndex].text;
+                } else {
+                    document.getElementById("goalText").innerText = "All goals completed!";
+                }
+                localStorage.setItem("goalIndex", goalIndex);
+            }
         }
 
         setInterval(autoGrow, 1000);
