@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunflower Clicker</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; background-color: #f9f2dc; }
+        #clickButton { font-size: 20px; padding: 10px 20px; background-color: #ffcc33; border: none; border-radius: 5px; cursor: pointer; }
+        #shop { margin-top: 20px; }
+        .stat { font-size: 18px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Sunflower Clicker 🌻</h1>
+    <p class="stat">Sunflowers: <span id="counter">0</span></p>
+    <p class="stat">Seeds: <span id="seeds">0</span></p>
+    <p class="stat">Oil: <span id="oil">0</span></p>
+    <button id="clickButton">Plant Sunflower 🌱</button>
+    
+    <div id="shop">
+        <button id="upgrade" onclick="buyUpgrade()">Buy Auto-Grow (Cost: 10 seeds)</button>
+        <button id="convert" onclick="convertSeeds()">Convert 5 Seeds to 1 Oil</button>
+    </div>
+    
+    <script>
+        let sunflowers = parseInt(localStorage.getItem("sunflowers")) || 0;
+        let seeds = parseInt(localStorage.getItem("seeds")) || 0;
+        let oil = parseInt(localStorage.getItem("oil")) || 0;
+        let autoGrowers = parseInt(localStorage.getItem("autoGrowers")) || 0;
+        let upgradeCost = 10;
+
+        document.getElementById("counter").innerText = sunflowers;
+        document.getElementById("seeds").innerText = seeds;
+        document.getElementById("oil").innerText = oil;
+
+        document.getElementById("clickButton").addEventListener("click", function() {
+            sunflowers++;
+            seeds += 2;
+            updateStats();
+        });
+
+        function buyUpgrade() {
+            if (seeds >= upgradeCost) {
+                seeds -= upgradeCost;
+                autoGrowers++;
+                upgradeCost = Math.floor(upgradeCost * 1.5);
+                document.getElementById("upgrade").innerText = `Buy Auto-Grow (Cost: ${upgradeCost} seeds)`;
+            }
+        }
+
+        function convertSeeds() {
+            if (seeds >= 5) {
+                seeds -= 5;
+                oil++;
+                updateStats();
+            }
+        }
+
+        function autoGrow() {
+            sunflowers += autoGrowers;
+            seeds += autoGrowers * 2;
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById("counter").innerText = sunflowers;
+            document.getElementById("seeds").innerText = seeds;
+            document.getElementById("oil").innerText = oil;
+            localStorage.setItem("sunflowers", sunflowers);
+            localStorage.setItem("seeds", seeds);
+            localStorage.setItem("oil", oil);
+            localStorage.setItem("autoGrowers", autoGrowers);
+        }
+
+        setInterval(autoGrow, 1000);
+    </script>
+</body>
+</html>
